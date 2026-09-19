@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PharmacyKiosk"
 include ':app'
-
