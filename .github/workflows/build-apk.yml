@@ -19,8 +19,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
+      - name: Setup Gradle (No Cache)
         uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-disabled: true  # 關鍵：強制關閉 GitHub 壞掉的快取服務
 
       - name: Build Debug APK
         run: gradle assembleDebug --no-daemon
