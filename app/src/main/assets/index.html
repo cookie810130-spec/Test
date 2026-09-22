@@ -333,6 +333,17 @@
       updateClassText('p-date2', date2Range);
       updateClassText('p-date3', date3Range);
       updateClassText('p-note', note);
+// 在您的 index.html 的 <script> 區塊加入這個接收函數：
+function onAndroidCardReadSuccess(data) {
+    console.log("讀卡成功：", data);
+    
+    // 把資料填入 HTML 表單
+    document.getElementById("patientName").value = data.name;   // 填入中文姓名
+    document.getElementById("patientId").value = data.idNum;    // 填入身分證
+    document.getElementById("patientBirth").value = data.birth; // 填入生日(例如 0700101)
+    
+    alert("健保卡讀取成功：\n姓名：" + data.name + "\n身分證：" + data.idNum);
+}
 
       // 處理手寫簽名圖片輸出至單據
       if (hasSignature) {
