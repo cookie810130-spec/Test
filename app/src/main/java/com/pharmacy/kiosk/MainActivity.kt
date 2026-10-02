@@ -3,7 +3,6 @@ package com.pharmacy.kiosk
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.WindowManager
-import android.webkit.JavascriptInterface
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -16,12 +15,12 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        
+
         webView = WebView(this)
         setContentView(webView)
 
@@ -31,22 +30,13 @@ class MainActivity : AppCompatActivity() {
         webSettings.allowFileAccess = true
         webSettings.allowContentAccess = true
 
-        webView.addJavascriptInterface(WebAppInterface(), "AndroidCardReader")
+        // 已取消讀卡，不再註冊 AndroidCardReader
         webView.webViewClient = WebViewClient()
         webView.loadUrl("file:///android_asset/index.html")
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        // Lock Kiosk mode
-    }
-
-    inner class WebAppInterface {
-        @JavascriptInterface
-        fun startReadCard() {
-            runOnUiThread {
-                val sampleJson = """{"idNum":"A123456789","name":"陳大明","birth":"0700101"}"""
-                webView.evaluateJavascript("if(window.onAndroidCardReadSuccess){ onAndroidCardReadSuccess($sampleJson); }", null)
-            }
-        }
+        // 鎖定 Kiosk 模式，不讓返回鍵關閉
     }
 }
